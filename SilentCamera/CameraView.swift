@@ -36,7 +36,7 @@ class CameraView: UIView{
         
         //条件を満たしデバイスを取得する（複数あるかもしれない）
         let devices = deviceDiscoverySession.devices
-        //取得したデバイスを振り分ける(両方ないかもしれない)
+        //取得したデバイスを振り分ける(もしかしたら両方ないかもしれない)
         for device in devices{
             if device.position  == .back{
                 mainCamera = device
