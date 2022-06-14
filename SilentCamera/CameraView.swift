@@ -43,16 +43,34 @@ class CameraView: UIView{
             } else if device.position == .front{
                 innerCamera = device
             }
-            
         }
+        
         //実際に起動するカメラは背面が優先、インナーは背面がなかったら使う
         device = mainCamera == nil ? innerCamera : mainCamera
+        
+        //出力の設定
+        guard captureSession.canAddOutput(photoOutput) else {
+            captureSession.commitConfiguration()
+            return
+        }
+        //ここから下は実行されないかもしれない
+        //セッションが使うアウトプットの設定
+        captureSession.addOutput(photoOutput)
+        //入力の設定
+        if let device = device{
+            guard let captureDeviceInput = try? AVCaptureDeviceInput(device: device),
+           captureSession.canAddInput(captureDeviceInput) else{
+            captureSession.commitConfiguration()
+            return
+        }
+        //セッションが使うインプットの設定
+        captureSession.addInput(captureDeviceInput)
+            
+        }
         //設定終える、設定はコミットする
         captureSession.commitConfiguration()
         
-        
     }
-    
 }
     
     
