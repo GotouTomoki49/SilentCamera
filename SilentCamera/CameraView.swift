@@ -71,6 +71,47 @@ class CameraView: UIView{
         captureSession.commitConfiguration()
         
     }
+    //Layerの設定
+    
+    //プレビュー用のレイヤー
+    var cameraPreViewLayer: AVCaptureVideoPreviewLayer?
+    //レイヤーの設定
+    func setupLayer(){
+        cameraPreViewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        cameraPreViewLayer?.videoGravity = .resizeAspectFill
+        //カメラの向きによってカメラが変な向きになるので直す
+        
+        //大きさ
+        //画面起動時のフルサイズ
+        self.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: UIScreen.main.bounds.size)
+        //LayerもViewと同じ大きさにする
+        cameraPreViewLayer?.frame = self.frame
+        //オプショナルの値を安全に取り出す
+        if let cameraPreviewLayer = cameraPreViewLayer{
+            self.layer.addSublayer(cameraPreviewLayer)
+            
+        }
+    }
+    func run(){
+        captureSession.startRunning()
+    }
+}
+
+//swiftUIで使うためのRepresent
+struct CameraViewRepresent: UIViewRepresentable{
+    typealias UIViewType = CameraView
+    
+    func makeUIView(context: Context) -> CameraView {
+        let view = CameraView()
+        view.setupDevice()
+        view.setupLayer()
+        view.run()
+        return view
+    }
+    
+    func updateUIView(_ uiView: CameraView, context: Context) {
+        //使わない
+    }
 }
     
     
