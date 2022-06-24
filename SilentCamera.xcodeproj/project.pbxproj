@@ -282,6 +282,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SilentCamera/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使います";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "このアプリではフォトライブラリーを利用します";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
@@ -315,6 +316,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SilentCamera/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使います";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "このアプリではフォトライブラリーを利用します";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;

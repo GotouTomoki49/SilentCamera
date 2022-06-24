@@ -7,6 +7,7 @@
 
 import Foundation
 import Photos
+import UIKit
 
 //継承はclassの記述のある方に書く
 class ViewModel:  NSObject{
@@ -20,6 +21,9 @@ class ViewModel:  NSObject{
     var device: AVCaptureDevice?
     //キャプチャーした画面をアプトプットするための入れ物
     var photoOutput = AVCapturePhotoOutput()
+    
+    //キャプチャしたイメージデータを保存する入れもの
+    var imageData: Data?
     
     //カメラのセッティング
     func setupDevice(){
@@ -84,7 +88,11 @@ extension ViewModel: AVCapturePhotoCaptureDelegate {
     
     // 撮影に関連する一連の処理が終わったあとに実行する処理
     public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        // 撮影した写真をディスプレイに表示する？
+        //data型
+        self.imageData = photo.fileDataRepresentation()
+        //画面に撮った写真を表示
+        //image()→直接はimageDataをImage()にできない
+        _ = UIImage(data: imageData!)
     }
     
     // 写真をキャプチャーする直前に動作する（シャッター音）
@@ -98,6 +106,22 @@ extension ViewModel: AVCapturePhotoCaptureDelegate {
     // 写真をキャプチャー終わったら何をするか処理を書く
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings, error: Error?) {
         // 写真の保存処理
+        //PHPhotoLibraryは最近変わった書き方
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            guard status == .authorized else { return }
+            //photoLibraryのあれこれにアクセスできるように
+            //photoLibraryに変更を求める、非同期
+            PHPhotoLibrary.shared().performChanges {
+                //photoLibraryに保存するリクエスト
+                let creationRequest = PHAssetCreationRequest.forAsset()
+                //リクエストに素材（写真）を渡す
+                //imagedataはオプショナルでデータがないかもしれない
+                guard let imageData  = self.imageData else {return}
+                creationRequest.addResource(with: .photo, data: imageData, options: nil)
+            }
+            
+        }
+        
     }
     
     // 写真を撮る
