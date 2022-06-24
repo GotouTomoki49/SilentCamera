@@ -9,8 +9,8 @@ import SwiftUI
 import Photos //カメラ機能のライブラリ
 
 class CameraView: UIView{
-    var viewModel = ViewModel()
-
+    fileprivate  var viewModel:ViewModel!
+    
     //Layerの設定
     //プレビュー用のレイヤー
     var cameraPreViewLayer: AVCaptureVideoPreviewLayer?
@@ -31,15 +31,21 @@ class CameraView: UIView{
             
         }
     }
-   
+    
 }
 
 //swiftUIで使うためのRepresent
 struct CameraViewRepresent: UIViewRepresentable{
     typealias UIViewType = CameraView
+    let viewModel: ViewModel
     
+    init(viewModel: ViewModel){
+        self.viewModel = viewModel
+        
+    }
     func makeUIView(context: Context) -> CameraView {
         let view = CameraView()
+        view.viewModel  = viewModel
         view.viewModel.setupDevice()
         view.setupLayer()
         view.viewModel.run()
@@ -52,8 +58,8 @@ struct CameraViewRepresent: UIViewRepresentable{
     
     
 }
-    
-    
-    
+
+
+
 
 

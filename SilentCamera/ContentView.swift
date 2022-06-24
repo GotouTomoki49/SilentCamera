@@ -10,14 +10,12 @@ import SwiftUI
 struct ContentView: View {
     var viewModel = ViewModel()
     var body: some View {
-        CameraViewRepresent()
+        CameraViewRepresent(viewModel: viewModel)
             .gesture(
                 TapGesture()
                     .onEnded{
-                        takePhoto()
+                        viewModel.takePhoto()
                     }
-                
-            
             )
         
     }
